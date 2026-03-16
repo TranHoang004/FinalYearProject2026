@@ -1,0 +1,16 @@
+# --- Backend (.NET) ---
+[Bb]in/
+[Ob]j/
+.vs/
+*.user
+*.suo
+
+# --- Frontend (Next.js/React) ---
+node_modules/
+.next/
+out/
+build/
+.env*.local
+
+# --- Khác ---
+.DS_Store
