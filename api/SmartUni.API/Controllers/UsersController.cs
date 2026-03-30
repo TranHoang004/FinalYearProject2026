@@ -1,11 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SmartUni.API.Application.DTOs; // Thêm using DTO
+using SmartUni.API.Application.DTOs; 
 using SmartUni.API.Core.Entities;
 using SmartUni.API.Infrastructure.Data;
 
 namespace SmartUni.API.Controllers
 {
+    public class CreateInternalUserDto
+    {
+        public string UserId { get; set; } = string.Empty;
+        public string FullName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public int RoleId { get; set; } // 2: Staff, 3: Lecturer
+    }
+
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -72,6 +80,83 @@ namespace SmartUni.API.Controllers
 
             await _context.SaveChangesAsync();
             return Ok(new { Message = $"Đã khóa tài khoản {user.FullName} ({userId}) thành công!" });
+        }
+
+        // PUT: Cập nhật trạng thái học vụ (Soft Delete an toàn)
+        [HttpPut("{userId}/academic-status")]
+        public async Task<IActionResult> UpdateAcademicStatus(string userId, [FromBody] UpdateStatusDto request)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null) return NotFound("Không tìm thấy người dùng.");
+
+            // 1. Chuyển trạng thái IsActive (Soft Delete để cấm đăng nhập)
+            // Nếu là "Đang học" thì mở lại, còn lại các trạng thái khác đều khóa tài khoản
+            user.IsActive = request.Status == "Đang học";
+
+            // 2. Ghi nhận dữ liệu cũ vào Log (Đúng chuẩn sao lưu trước khi cập nhật)
+            string oldDataBackup = System.Text.Json.JsonSerializer.Serialize(new
+            {
+                Status = user.IsActive ? "Đang hoạt động" : "Đã khóa",
+                Debt = user.TuitionDebt,
+                Class = user.AdminClassId
+            });
+
+            // 3. Khởi tạo Audit Log kèm Lý do thay đổi
+            var log = new AuditLog
+            {
+                UserId = request.PerformedBy, // Người thực hiện (Staff/Admin)
+                Action = "UPDATE_ACADEMIC_STATUS",
+                TableName = "Users",
+                Timestamp = DateTime.Now,
+                OldValues = oldDataBackup,
+                NewValues = $"TargetUser: {userId} | NewStatus: {request.Status} | Reason: {request.Reason}"
+            };
+
+            _context.AuditLogs.Add(log);
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                Message = $"Đã cập nhật trạng thái của {user.FullName} thành '{request.Status}'.",
+                LogRecorded = true
+            });
+        }
+
+        // =========================================================================
+        // API CHO IT ADMIN: TẠO TÀI KHOẢN GIÁO VỤ / GIẢNG VIÊN
+        // =========================================================================
+        [HttpPost("create-internal")]
+        public async Task<IActionResult> CreateInternalUser([FromBody] CreateInternalUserDto request)
+        {
+            if (await _context.Users.AnyAsync(u => u.UserId == request.UserId))
+                return BadRequest("Mã đăng nhập này đã tồn tại trong hệ thống.");
+
+            var user = new User
+            {
+                UserId = request.UserId.Trim(),
+                FullName = request.FullName.Trim(),
+                Email = request.Email.Trim(),
+                RoleId = request.RoleId,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword("123456"), // Mật khẩu mặc định
+                IsFirstLogin = true, // BẮT BUỘC ĐỔI MẬT KHẨU LẦN ĐẦU
+                IsActive = true,
+                TuitionDebt = 0
+            };
+
+            _context.Users.Add(user);
+
+            // Ghi Log hệ thống
+            _context.AuditLogs.Add(new AuditLog
+            {
+                UserId = "admin", // IT Admin thực hiện
+                Action = "CREATE_INTERNAL_USER",
+                TableName = "Users",
+                Timestamp = DateTime.Now,
+                NewValues = $"Created: {user.UserId} | Role: {user.RoleId}"
+            });
+
+            await _context.SaveChangesAsync();
+            return Ok(new { Message = $"Đã cấp tài khoản {user.UserId} thành công! Mật khẩu mặc định là 123456." });
         }
     }
 }

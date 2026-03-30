@@ -16,10 +16,12 @@ namespace SmartUni.API.Core.Entities
         public bool IsActive { get; set; } = true;
         public decimal TuitionDebt { get; set; } = 0;
         public string? AdminClassId { get; set; }
+        public string? MajorId { get; set; }
+        public string? AvatarUrl { get; set; }
+        public string? Phone { get; set; }
+        public string? Address { get; set; }
 
-        // Navigation property
         [ForeignKey("RoleId")]
         public virtual Role? Role { get; set; }
-        public string? MajorId { get; set; }
     }
 }

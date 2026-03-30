@@ -1,6 +1,38 @@
 [
   {
     "ContainingType": "SmartUni.API.Controllers.AcademicController",
+    "Method": "GetAvailableClasses",
+    "RelativePath": "api/Academic/available-classes/{semester}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "semester",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartUni.API.Controllers.AcademicController",
+    "Method": "GetClassGrades",
+    "RelativePath": "api/Academic/class-grades/{classId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "classId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartUni.API.Controllers.AcademicController",
     "Method": "CloneCurriculum",
     "RelativePath": "api/Academic/clone-curriculum",
     "HttpMethod": "POST",
@@ -120,6 +152,143 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "SmartUni.API.Controllers.AcademicController",
+    "Method": "GetStudentGrades",
+    "RelativePath": "api/Academic/grades/{studentId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "semester",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartUni.API.Controllers.AcademicController",
+    "Method": "ImportSubjects",
+    "RelativePath": "api/Academic/import-subjects",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartUni.API.Controllers.AcademicController",
+    "Method": "GetRegistrationStatus",
+    "RelativePath": "api/Academic/registration-status",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartUni.API.Controllers.AcademicController",
+    "Method": "GetTimetable",
+    "RelativePath": "api/Academic/schedule",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "role",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartUni.API.Controllers.AcademicController",
+    "Method": "AddSubject",
+    "RelativePath": "api/Academic/subjects",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "SmartUni.API.Application.DTOs.SubjectDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartUni.API.Controllers.AcademicController",
+    "Method": "UpdateSubject",
+    "RelativePath": "api/Academic/subjects/{subjectId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "subjectId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "SmartUni.API.Application.DTOs.SubjectDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartUni.API.Controllers.AcademicController",
+    "Method": "ToggleRegistration",
+    "RelativePath": "api/Academic/toggle-registration",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartUni.API.Controllers.AcademicController",
+    "Method": "UpdateGrades",
+    "RelativePath": "api/Academic/update-grades",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "System.Collections.Generic.List\u00601[[SmartUni.API.Application.DTOs.GradeUpdateDto, SmartUni.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SmartUni.API.Controllers.AttendanceController",
     "Method": "SubmitAttendance",
     "RelativePath": "api/Attendance",
@@ -167,7 +336,23 @@
     ]
   },
   {
-    "ContainingType": "AuthController",
+    "ContainingType": "SmartUni.API.Controllers.AuthController",
+    "Method": "ChangeInitialPassword",
+    "RelativePath": "api/Auth/change-initial-password",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "SmartUni.API.Controllers.ChangePasswordDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartUni.API.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/Auth/login",
     "HttpMethod": "POST",
@@ -212,6 +397,38 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "SmartUni.API.Controllers.ClassesController",
+    "Method": "ToggleGradebookLock",
+    "RelativePath": "api/Classes/{classId}/toggle-lock",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "classId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartUni.API.Controllers.DashboardController",
+    "Method": "GetStudentDashboard",
+    "RelativePath": "api/Dashboard/student/{studentId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "SmartUni.API.Controllers.InvoicesController",
@@ -355,6 +572,43 @@
         "Name": "pageSize",
         "Type": "System.Int32",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartUni.API.Controllers.UsersController",
+    "Method": "UpdateAcademicStatus",
+    "RelativePath": "api/Users/{userId}/academic-status",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "SmartUni.API.Application.DTOs.UpdateStatusDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartUni.API.Controllers.UsersController",
+    "Method": "CreateInternalUser",
+    "RelativePath": "api/Users/create-internal",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "SmartUni.API.Controllers.CreateInternalUserDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []

@@ -16,6 +16,20 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // ==========================================================
+// 1.5 CẤU HÌNH CORS (BẢO MẬT HƠN CHO NEXT.JS)
+// ==========================================================
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowNextJsApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000") // Chỉ cho phép Next.js gọi API
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials(); // BẮT BUỘC phải có dòng này để gửi Token/Cookie
+    });
+});
+
+// ==========================================================
 // 2. ĐĂNG KÝ DEPENDENCY INJECTION (Chuẩn SOLID - Chữ D)
 // ==========================================================
 // Đăng ký các Service xử lý Logic cốt lõi (Business Logic Layers)
@@ -103,8 +117,8 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-// Bật CORS nếu bạn chạy Frontend (React/Vue) ở port khác
-app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+// SỬ DỤNG CORS ĐÃ CẤU HÌNH Ở TRÊN (Phải gọi trước UseAuthentication)
+app.UseCors("AllowNextJsApp");
 
 app.UseHttpsRedirection();
 

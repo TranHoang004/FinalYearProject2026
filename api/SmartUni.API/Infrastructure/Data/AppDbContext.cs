@@ -24,8 +24,10 @@ namespace SmartUni.API.Infrastructure.Data
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Prerequisite> Prerequisites { get; set; }
         public DbSet<Class> Classes { get; set; }
-
         public DbSet<Curriculum> Curriculums { get; set; }
+
+        public DbSet<ClassSchedule> ClassSchedules { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

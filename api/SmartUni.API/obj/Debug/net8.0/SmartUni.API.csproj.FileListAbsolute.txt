@@ -186,3 +186,12 @@ D:\FinalYearProject2026\api\SmartUni.API\bin\Debug\net8.0\Serilog.Sinks.File.dll
 D:\FinalYearProject2026\api\SmartUni.API\bin\Debug\net8.0\BCrypt.Net-Next.dll
 D:\FinalYearProject2026\api\SmartUni.API\bin\Debug\net8.0\Serilog.Sinks.Network.dll
 D:\FinalYearProject2026\api\SmartUni.API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\FinalYearProject2026\api\SmartUni.API\obj\Debug\net8.0\SmartUni.API.sourcelink.json
+D:\FinalYearProject2026\api\SmartUni.API\bin\Debug\net8.0\EPPlus.dll
+D:\FinalYearProject2026\api\SmartUni.API\bin\Debug\net8.0\EPPlus.Interfaces.dll
+D:\FinalYearProject2026\api\SmartUni.API\bin\Debug\net8.0\Microsoft.Extensions.Configuration.FileExtensions.dll
+D:\FinalYearProject2026\api\SmartUni.API\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Json.dll
+D:\FinalYearProject2026\api\SmartUni.API\bin\Debug\net8.0\Microsoft.IO.RecyclableMemoryStream.dll
+D:\FinalYearProject2026\api\SmartUni.API\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
+D:\FinalYearProject2026\api\SmartUni.API\bin\Debug\net8.0\System.Security.Cryptography.Xml.dll
+D:\FinalYearProject2026\api\SmartUni.API\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll

@@ -22,5 +22,29 @@ namespace SmartUni.API.Controllers
 
             return await query.ToListAsync();
         }
+
+        // =========================================================================
+        // API CHO GIÁO VỤ: KHÓA/MỞ KHÓA BẢNG ĐIỂM CỦA MỘT LỚP HỌC PHẦN
+        // =========================================================================
+        [HttpPut("{classId}/toggle-lock")]
+        public async Task<IActionResult> ToggleGradebookLock(string classId)
+        {
+            var targetClass = await _context.Classes.FindAsync(classId);
+            if (targetClass == null) return NotFound("Không tìm thấy lớp học phần.");
+
+            // Đảo ngược trạng thái hiện tại (Đang khóa -> Mở, Đang mở -> Khóa)
+            targetClass.IsGradebookLocked = !targetClass.IsGradebookLocked;
+
+            // Tùy chọn: Có thể ghi thêm AuditLog ở đây để biết Giáo vụ nào đã khóa sổ
+
+            await _context.SaveChangesAsync();
+
+            string statusText = targetClass.IsGradebookLocked ? "ĐÃ KHÓA SỔ" : "ĐÃ MỞ KHÓA";
+            return Ok(new
+            {
+                Message = $"Cập nhật thành công! Trạng thái bảng điểm lớp {targetClass.ClassId} hiện tại: {statusText}.",
+                IsLocked = targetClass.IsGradebookLocked
+            });
+        }
     }
 }
